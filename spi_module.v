@@ -49,15 +49,20 @@ module spi_module
 	
 	assign processing_word = (spi_status == `SPI_STATUS_IDLE) ? 1'b0 : 1'b1;
 	
-	generate 
-	
+	generate
+
 		if(SPI_MASTER) begin
-		
+
 			assign SCLK_OUT = (activate_sclk) ? SCLK_IN : (CPOL);
 			assign SS_OUT = (activate_ss) ? 1'b0 : 1'b1;
 
+		end else begin
+
+			assign SCLK_OUT = 1'b0;
+			assign SS_OUT   = 1'b1;
+
 		end
-		
+
 	endgenerate
 	
 	//Edge detector modules
