@@ -19,7 +19,8 @@ module fpga_top (
 	input wire SIGNAL_CLOCK_IN,
 	input wire SIGNAL_SS_IN,
 	input wire SIGNAL_DATA_IN,
-	output wire TEST_SIGNAL_OUT );
+	output wire TEST_SIGNAL_OUT
+);
 
 	//Local registers and wires
 	reg [7:0] resetn_counter;
@@ -49,7 +50,14 @@ module fpga_top (
 	wire divided_master_clock;
 
 	//Clock divider module
-	clock_divider #( .DIV_N(`SPI_CLK_DIV) )	clkdiv ( .clk_in(WF_CLK), .clk_out(divided_master_clock), .do_reset(reset_div), .is_ready(divider_ready) );
+	clock_divider #(
+	    .DIV_N(`SPI_CLK_DIV)
+	) clkdiv (
+	    .clk_in(WF_CLK),
+		.clk_out(divided_master_clock),
+		.do_reset(reset_div),
+		.is_ready(divider_ready)
+	);
 
 	spi_module #(
         .SPI_MASTER (1'b1)

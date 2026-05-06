@@ -6,14 +6,14 @@
 `define SPI_STATUS_IDLE 'b000
 `define SPI_STATUS_CYCLE_BITS 'b111
 
-module spi_module
-	#( parameter CPOL = 1'b0,
+module spi_module #(
+    parameter CPOL = 1'b0,
 	parameter CPHA = 1'b0,
 	parameter INVERT_DATA_ORDER = 1'b0,
 	parameter SPI_MASTER = 1'b1,
-	parameter SPI_WORD_LEN = 8 )
-
-	( input wire master_clock,
+	parameter SPI_WORD_LEN = 8
+)(
+    input wire master_clock,
 	output wire SCLK_OUT,
 	input wire SCLK_IN,
 	output wire SS_OUT,
@@ -25,9 +25,10 @@ module spi_module
 	input wire INPUT_SIGNAL,
 	output wire [SPI_WORD_LEN - 1:0] data_word_recv,
 	input wire do_reset,
-	output wire is_ready );
+	output wire is_ready
+);
 
-	//Local registers and wires
+	// Local registers and wires
 	reg is_ready_reg;
 	reg activate_ss;
 	/* verilator lint_off UNUSEDSIGNAL */
@@ -68,8 +69,17 @@ module spi_module
 	endgenerate
 
 	//Edge detector modules
-	pos_edge_det spi_edge_pos( .sig(SCLK_IN), .clk(master_clock), .pe(rising_sclk_edge));
-	neg_edge_det spi_edge_neg( .sig(SCLK_IN), .clk(master_clock), .ne(falling_sclk_edge));
+	pos_edge_det spi_edge_pos(
+	    .sig(SCLK_IN),
+		.clk(master_clock),
+		.pe(rising_sclk_edge)
+	);
+
+	neg_edge_det spi_edge_neg(
+	    .sig(SCLK_IN),
+		.clk(master_clock),
+		.ne(falling_sclk_edge)
+	);
 
 	wire delay_pol =  (CPHA) ? ( (CPOL) ? (rising_sclk_edge) : (falling_sclk_edge)  ) : ( (CPOL) ? (SCLK_IN) : (!SCLK_IN) );
 
