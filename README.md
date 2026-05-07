@@ -78,4 +78,8 @@ SPI slave:
 THE SOFTWARE/HARDWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 Happy synthesizing, 
-Dr. med. Jan Schiefer.
+Dr. med. Jan Schiefer.   
+
+## Changes we have made to this fork:
+The functional change we have made in spi_module.v was adding a non-master fallback in the generate block; previously SCLK_OUT/SS_OUT were only assigned inside if (SPI_MASTER), and now there is an else branch that forces safe defaults when SPI_MASTER == 0 (SCLK_OUT = 1'b0, SS_OUT = 1'b1). There is also clean up and verilator lint flags to reduce lint errors.
+
